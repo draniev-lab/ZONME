@@ -1,0 +1,223 @@
+
+{
+  "entities": {
+    "property": {
+      "title": "Property",
+      "description": "Represents a real estate property listing.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "The title of the listing." },
+        "description": { "type": "string", "description": "A detailed description of the property." },
+        "type": { "type": "string", "enum": ["Terrain", "Maison", "Appartement", "Immeuble", "Commercial"] },
+        "status": { "type": "string", "enum": ["Vente", "Location", "Réservation"] },
+        "price": { "type": "number", "description": "The price of the property in XOF." },
+        "address": { "type": "string" },
+        "city": { "type": "string" },
+        "geolocation": {
+          "type": "object",
+          "properties": {
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
+          }
+        },
+        "area": { "type": "number", "description": "Total area in square meters." },
+        "features": {
+          "type": "object",
+          "properties": {
+            "bedrooms": { "type": "number" },
+            "bathrooms": { "type": "number" },
+            "salons": { "type": "number" },
+            "kitchens": { "type": "number" }
+          }
+        },
+        "imageUrls": { "type": "array", "items": { "type": "string", "format": "uri" }, "description": "List of URLs for property images." },
+        "videoUrl": { "type": "string", "format": "uri", "description": "URL for a property video (e.g., YouTube)." },
+        "tourUrl": { "type": "string", "format": "uri", "description": "URL for a virtual tour (e.g., Matterport)." },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "documentUrls": { "type": "array", "items": { "type": "string", "format": "uri" }, "description": "List of URLs for property documents like cadastral plan, etc." },
+        "ownerId": { "type": "string", "description": "The UID of the user who owns the listing." },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "validated": { "type": "boolean", "description": "Whether the listing has been approved by an admin." },
+        "favoritedBy": { "type": "array", "items": { "type": "string" }, "description": "List of user UIDs who have favorited this property." }
+      },
+      "required": ["title", "type", "status", "price", "address", "city", "area", "ownerId", "createdAt", "features", "validated", "imageUrls"]
+    },
+    "userProfile": {
+      "title": "User Profile",
+      "description": "Represents a user's public profile in Firestore.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string", "format": "uri" },
+        "role": { "type": "string", "enum": ["client", "owner", "agent", "admin"], "default": "client" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "stripeId": { "type": "string", "description": "The user's Stripe Customer ID." },
+        "fcmToken": { "type": "string", "description": "The user's Firebase Cloud Messaging token for push notifications." },
+        "agencyId": { "type": "string", "description": "The ID of the agency this user belongs to, if any." }
+      },
+      "required": ["uid", "email", "displayName", "createdAt", "role"]
+    },
+    "message": {
+      "title": "Message",
+      "description": "Represents a message in a chat thread.",
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "propertyId": { "type": "string" },
+        "fromId": { "type": "string" },
+        "toId": { "type": "string" },
+        "participants": { "type": "array", "items": { "type": "string" }, "description": "Array containing the UIDs of both participants." },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "messageType": { "type": "string", "enum": ["text", "file"], "default": "text" },
+        "fileUrl": { "type": "string", "format": "uri" }
+      },
+      "required": ["text", "propertyId", "fromId", "toId", "createdAt", "participants", "messageType"]
+    },
+    "visitRequest": {
+        "title": "Visit Request",
+        "description": "Represents a user's request to visit a property.",
+        "type": "object",
+        "properties": {
+          "propertyId": { "type": "string" },
+          "userId": { "type": "string" },
+          "ownerId": { "type": "string" },
+          "visitDate": { "type": "string", "format": "date-time" },
+          "status": { "type": "string", "enum": ["pending", "confirmed", "cancelled"] },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["propertyId", "userId", "ownerId", "visitDate", "status", "createdAt"]
+    },
+     "agencyProfile": {
+        "title": "Agency Profile",
+        "description": "Represents a real estate agency's profile.",
+        "type": "object",
+        "properties": {
+            "name": { "type": "string" },
+            "ownerId": { "type": "string", "description": "The UID of the user who owns the agency account." },
+            "agentIds": { "type": "array", "items": { "type": "string" }, "description": "List of user UIDs who are agents for this agency, including the owner." },
+            "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["name", "ownerId", "createdAt", "agentIds"]
+    },
+    "userDocument": {
+        "title": "User Document",
+        "description": "Represents a document submitted by a user for KYC verification.",
+        "type": "object",
+        "properties": {
+            "userId": { "type": "string", "description": "The UID of the user who submitted the document." },
+            "type": { "type": "string", "enum": ["CNI", "Passeport", "Selfie"], "description": "Type of the document." },
+            "url": { "type": "string", "format": "uri", "description": "URL of the uploaded document in Firebase Storage." },
+            "status": { "type": "string", "enum": ["pending", "approved", "rejected"], "default": "pending" },
+            "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["userId", "type", "url", "status", "createdAt"]
+    },
+    "appSettings": {
+      "title": "Application Settings",
+      "description": "Stores global settings for the application.",
+      "type": "object",
+      "properties": {
+        "reservationFee": { "type": "number", "description": "The symbolic reservation fee in XOF." },
+        "reservationFeePriceId": { "type": "string", "description": "The Stripe Price ID for the reservation fee." },
+        "fcmVapidKey": { "type": "string", "description": "The VAPID key for Firebase Cloud Messaging." }
+      },
+      "required": ["reservationFee", "reservationFeePriceId", "fcmVapidKey"]
+    },
+    "activityLog": {
+        "title": "Activity Log",
+        "description": "Records significant user actions within the application.",
+        "type": "object",
+        "properties": {
+            "userId": { "type": "string", "description": "The UID of the user who performed the action." },
+            "userDisplayName": { "type": "string", "description": "The display name of the user at the time of action." },
+            "action": { "type": "string", "description": "A short description of the action performed (e.g., 'user_login', 'property_create')." },
+            "details": { "type": "object", "description": "An object containing additional context about the action (e.g., { propertyId: 'xyz' })." },
+            "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["userId", "userDisplayName", "action", "createdAt"]
+    },
+    "stripeCheckoutSession": {
+        "title": "Stripe Checkout Session",
+        "description": "The document written to Firestore to trigger the Stripe payment extension.",
+        "type": "object",
+        "properties": {
+            "price": { "type": "string", "description": "Stripe Price ID" },
+            "success_url": { "type": "string", "format": "uri" },
+            "cancel_url": { "type": "string", "format": "uri" },
+            "mode": { "type": "string", "enum": ["payment", "subscription"] },
+            "url": { "type": "string", "format": "uri", "description": "This is populated by the extension with the Stripe Checkout URL." },
+            "error": {"type": "object", "properties": {"message": {"type": "string"}}}
+        },
+        "required": ["price", "success_url", "cancel_url", "mode"]
+    },
+    "stripeProduct": {
+        "title": "Stripe Product",
+        "description": "A product synced from Stripe by the extension.",
+        "type": "object",
+        "properties": {
+            "name": { "type": "string"},
+            "description": { "type": "string" }
+        }
+    },
+    "stripePrice": {
+        "title": "Stripe Price",
+        "description": "A price synced from Stripe by the extension.",
+        "type": "object",
+        "properties": {
+            "unit_amount": { "type": "number" },
+            "currency": { "type": "string" }
+        }
+    }
+  },
+  "auth": {
+    "providers": ["google.com", "password", "facebook.com", "phone"]
+  },
+  "firestore": {
+    "/properties/{propertyId}": {
+      "schema": { "$ref": "#/entities/property" },
+      "description": "Stores all property listings."
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/userProfile" },
+      "description": "Stores user profile information."
+    },
+    "/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/message" },
+      "description": "Stores all chat messages."
+    },
+    "/visitRequests/{visitRequestId}": {
+        "schema": { "$ref": "#/entities/visitRequest" },
+        "description": "Stores all property visit requests."
+    },
+     "/agencies/{agencyId}": {
+        "schema": { "$ref": "#/entities/agencyProfile" },
+        "description": "Stores all agency profiles."
+    },
+    "/userDocuments/{documentId}": {
+        "schema": { "$ref": "#/entities/userDocument" },
+        "description": "Stores all user-submitted KYC documents."
+    },
+    "/settings/app": {
+      "schema": { "$ref": "#/entities/appSettings" },
+      "description": "Stores global app settings. This is a single document."
+    },
+    "/activityLogs/{logId}": {
+      "schema": { "$ref": "#/entities/activityLog" },
+      "description": "Stores all user activity logs."
+    },
+    "/customers/{userId}/checkout_sessions/{sessionId}": {
+        "schema": { "$ref": "#/entities/stripeCheckoutSession" },
+        "description": "Triggers the Stripe payment extension to create a checkout session."
+    },
+    "/products/{productId}": {
+        "schema": { "$ref": "#/entities/stripeProduct" },
+        "description": "Products synced from Stripe by the extension."
+    },
+    "/products/{productId}/prices/{priceId}": {
+        "schema": { "$ref": "#/entities/stripePrice" },
+        "description": "Prices for a product, synced from Stripe."
+    }
+  }
+}

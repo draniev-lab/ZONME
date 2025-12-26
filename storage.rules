@@ -1,0 +1,31 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    function getUserRole(userId) {
+      return get(/databases/(default)/documents/users/$(userId)).data.role;
+    }
+    
+    function isAdmin(userId) {
+      return getUserRole(userId) == 'admin';
+    }
+
+    // Règles pour les documents KYC
+    match /kyc_documents/{userId}/{allPaths=**} {
+      // Seul l'utilisateur propriétaire du dossier peut écrire dedans.
+      allow write: if request.auth != null && request.auth.uid == userId;
+      // Le propriétaire du dossier et les administrateurs peuvent lire les fichiers.
+      allow read: if request.auth != null && (request.auth.uid == userId || isAdmin(request.auth.uid));
+    }
+
+    // Règles pour les images des propriétés (plus permissives pour la lecture)
+    match /property_images/{allPaths=**} {
+      // N'importe qui peut lire les images des propriétés (pour les afficher sur les annonces publiques)
+      allow read;
+      // Seul un utilisateur connecté peut téléverser une image de propriété.
+      // Des règles plus strictes (ex: vérifier qu'il est propriétaire) peuvent être ajoutées au niveau de Firestore.
+      allow write: if request.auth != null;
+    }
+  }
+}

@@ -1,0 +1,126 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Unit Tests (LangChain Integrations)
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    paths:
+      - "libs/**"
+  workflow_dispatch: # Allows triggering the workflow manually in GitHub UI
+
+# If another push to the same PR or branch happens while this workflow is still running,
+# cancel the earlier run in favor of the next run.
+#
+# There's no point in testing an outdated version of the code. GitHub only allows
+# a limited number of job runners to be active at the same time, so it's better to cancel
+# pointless jobs early so that more useful jobs can run sooner.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  get-changed-files:
+    runs-on: ubuntu-latest
+    outputs:
+      changed_files: ${{ steps.get_changes.outputs.changed_files }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          fetch-depth: 2
+      - name: Get changes
+        id: get_changes
+        run: |
+          echo "changed_files<<EOF" >> $GITHUB_OUTPUT
+          git diff --name-only -r HEAD^1 HEAD | while read line; do printf "%s\n" "$line"; done >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+  prepare-matrix:
+    needs: get-changed-files
+    runs-on: ubuntu-latest
+    env:
+      PACKAGES: "anthropic,aws,azure-cosmosdb,azure-dynamic-sessions,baidu-qianfan,cerebras,cloudflare,cohere,core,community,deepseek,exa,google-cloud-sql-pg,google-common,google-gauth,google-genai,google-vertexai,google-vertexai-web,google-webauth,groq,mcp-adapters,mistralai,mixedbread-ai,mongodb,nomic,ollama,openai,pinecone,qdrant,redis,standard-tests,tavily,textsplitters,weaviate,xai,yandex"
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      matrix_length: ${{ steps.set-matrix.outputs.matrix_length }}
+    steps:
+      - id: set-matrix
+        run: |
+          changed_files="${{ needs.get-changed-files.outputs.changed_files }}"
+          echo "Changed files: $changed_files"
+          # Convert PACKAGES environment variable into an array
+          IFS=',' read -r -a packages <<< "$PACKAGES"
+          echo "Packages: ${packages[*]}"
+
+          # Check if standard-tests has changes - if so, run tests on all packages
+          if echo "$changed_files" | grep -q "standard-tests"; then
+            echo "standard-tests package has changes. Running tests on all packages."
+            matrix="{\"include\": ["
+            first_entry=true
+            for package in "${packages[@]}"; do
+              if [ "$first_entry" = true ]; then
+                matrix="$matrix{\"os\": \"ubuntu-latest\", \"node-version\": \"20\", \"package\": \"$package\"},{\"os\": \"ubuntu-latest\", \"node-version\": \"20\", \"package\": \"$package\"}"
+                first_entry=false
+              else
+                matrix="$matrix, {\"os\": \"ubuntu-latest\", \"node-version\": \"20\", \"package\": \"$package\"},{\"os\": \"ubuntu-latest\", \"node-version\": \"20\", \"package\": \"$package\"}"
+              fi
+            done
+          else
+            # Only run tests on packages that have changes
+            matrix="{\"include\": ["
+            first_entry=true
+            for package in "${packages[@]}"; do
+              echo "Checking package: $package"
+              if echo "$changed_files" | grep -q "$package"; then
+                echo "Package $package found in changed files."
+                if [ "$first_entry" = true ]; then
+                matrix="$matrix{\"os\": \"ubuntu-latest\", \"node-version\": \"20\", \"package\": \"$package\"},{\"os\": \"ubuntu-latest\", \"node-version\": \"20\", \"package\": \"$package\"}"
+                first_entry=false
+              else
+                matrix="$matrix, {\"os\": \"ubuntu-latest\", \"node-version\": \"20\", \"package\": \"$package\"},{\"os\": \"ubuntu-latest\", \"node-version\": \"20\", \"package\": \"$package\"}"
+              fi
+              fi
+            done
+          fi
+          matrix="$matrix]}"
+          matrix_length=$(echo $matrix | jq '.include | length')
+          echo "Matrix: $matrix"
+          echo "Matrix length: $matrix_length"
+          echo "matrix_length=$matrix_length" >> $GITHUB_OUTPUT
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+
+  unit-tests:
+    name: Unit Tests
+    needs: prepare-matrix
+    # Only run this job if there are packages to test
+    if: needs.prepare-matrix.outputs.matrix_length > 0
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.prepare-matrix.outputs.matrix) }}
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: "true"
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "true"
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Setup pnpm
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        # FIXME: we shouldn't need this, but it's a workaround for a bug in the
+        # build system/ turbo where core doesn't get built.
+      - name: Build '@langchain/core' package
+        run: pnpm build --filter @langchain/core
+        # Running `test:unit:ci` from root will build first, however debugging
+        # in CI is easier if we separate the build step from the test step.
+      - name: Build '@langchain/${{ matrix.package }}' package
+        run: pnpm build --filter @langchain/${{ matrix.package }}
+      - name: Test '@langchain/${{ matrix.package }}' package
+        run: pnpm test:unit:ci --filter @langchain/${{ matrix.package }}

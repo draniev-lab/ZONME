@@ -1,0 +1,13 @@
+{
+  "plugins": {
+    "release-it-pnpm": {}
+  },
+  "github": {
+    "release": true,
+    "autoGenerate": true,
+    "tokenRef": "GITHUB_TOKEN_RELEASE"
+  },
+  "npm": {
+    "versionArgs": ["--workspaces-update=false"]
+  }
+}

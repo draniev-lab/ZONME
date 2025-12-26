@@ -1,0 +1,94 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-1",
+      "description": "Luxurious modern house exterior with a pool at dusk",
+      "imageUrl": "https://images.unsplash.com/photo-1678575326996-a1bf09b86158?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxsdXh1cnklMjBob3VzZSUyMGV4dGVyaW9yfGVufDB8fHx8MTc2MzQ3ODkyNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "luxury house exterior"
+    },
+    {
+      "id": "property1-1",
+      "description": "Bright and modern living room with large windows",
+      "imageUrl": "https://images.unsplash.com/photo-1720247520862-7e4b14176fa8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtb2Rlcm4lMjBsaXZpbmclMjByb29tfGVufDB8fHx8MTc2MzQ3MTY4MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "modern living room"
+    },
+    {
+      "id": "property1-2",
+      "description": "Sleek kitchen with marble countertops",
+      "imageUrl": "https://images.unsplash.com/photo-1560185127-1902ccdc5094?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bW9kZXJuJTIwa2l0Y2hlbnxlbnwwfHx8fDE3NjM0MjY2NzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "modern kitchen"
+    },
+    {
+      "id": "property1-3",
+      "description": "Cozy bedroom with a balcony view",
+      "imageUrl": "https://images.unsplash.com/photo-1622429420441-60dd67f737a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjb3p5JTIwYmVkcm9vbXxlbnwwfHx8fDE3NjM0NTI0MzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cozy bedroom"
+    },
+    {
+      "id": "property2-1",
+      "description": "Spacious apartment living area with city view",
+      "imageUrl": "https://images.unsplash.com/photo-1629042306558-7d1e15cc02fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxhcGFydG1lbnQlMjBsaXZpbmd8ZW58MHx8fHwxNzYzNDY4MjM5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "apartment living"
+    },
+    {
+      "id": "property2-2",
+      "description": "Minimalist bedroom with concrete walls",
+      "imageUrl": "https://images.unsplash.com/photo-1610307522657-8c0304960189?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtaW5pbWFsaXN0JTIwYmVkcm9vbXxlbnwwfHx8fDE3NjM0NjUwNDZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "minimalist bedroom"
+    },
+    {
+      "id": "property3-1",
+      "description": "Traditional house with a beautiful garden",
+      "imageUrl": "https://images.unsplash.com/photo-1631149784601-8e6c266b046a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxob3VzZSUyMGdhcmRlbnxlbnwwfHx8fDE3NjMzNTQ0ODh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "house garden"
+    },
+    {
+      "id": "property4-1",
+      "description": "Vast empty land plot with mountains in the background",
+      "imageUrl": "https://images.unsplash.com/photo-1590169834934-297bdaa63590?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bGFuZCUyMHBsb3R8ZW58MHx8fHwxNzYzNDQ1MzgzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "land plot"
+    },
+    {
+      "id": "property5-1",
+      "description": "Modern commercial building facade",
+      "imageUrl": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb21tZXJjaWFsJTIwYnVpbGRpbmd8ZW58MHx8fHwxNzYzMzk1NDQwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "commercial building"
+    },
+    {
+      "id": "property6-1",
+      "description": "Suburban family house with a front yard",
+      "imageUrl": "https://images.unsplash.com/photo-1625603736199-775425d2890a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxzdWJ1cmJhbiUyMGhvdXNlfGVufDB8fHx8MTc2MzQzMjQwNHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "suburban house"
+    },
+    {
+      "id": "property7-1",
+      "description": "Luxury villa with a swimming pool",
+      "imageUrl": "https://images.unsplash.com/photo-1591474200742-8e512e6f98f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxsdXh1cnklMjB2aWxsYXxlbnwwfHx8fDE3NjM0Nzc2NTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "luxury villa"
+    },
+    {
+      "id": "property8-1",
+      "description": "Apartment building exterior",
+      "imageUrl": "https://images.unsplash.com/photo-1612637968894-660373e23b03?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhcGFydG1lbnQlMjBidWlsZGluZ3xlbnwwfHx8fDE3NjM0MDkyNTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "apartment building"
+    },
+    {
+      "id": "avatar-1",
+      "description": "Profile picture of a smiling woman",
+      "imageUrl": "https://images.unsplash.com/flagged/photo-1559855603-ce4c8f480d76?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx3b21hbiUyMHNtaWxpbmd8ZW58MHx8fHwxNzYzMzk3NDM0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "woman smiling"
+    },
+    {
+      "id": "avatar-2",
+      "description": "Profile picture of a man in a suit",
+      "imageUrl": "https://images.unsplash.com/flagged/photo-1553642618-de0381320ff3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtYW4lMjBzdWl0fGVufDB8fHx8MTc2MzM4Nzk1MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "man suit"
+    },
+    {
+      "id": "avatar-3",
+      "description": "Profile picture of a real estate agent",
+      "imageUrl": "https://images.unsplash.com/photo-1628133287836-40bd5453bed1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxyZWFsJTIwZXN0YXRlJTIwYWdlbnR8ZW58MHx8fHwxNzYzNDc4OTI2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "real estate agent"
+    }
+  ]
+}

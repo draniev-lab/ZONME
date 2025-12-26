@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 98%;
+    --foreground: 220 15% 20%;
+    --card: 220 20% 100%;
+    --card-foreground: 220 15% 20%;
+    --popover: 220 20% 100%;
+    --popover-foreground: 220 15% 20%;
+    --primary: 25 95% 53%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 10% 90%;
+    --secondary-foreground: 220 15% 20%;
+    --muted: 220 10% 95%;
+    --muted-foreground: 220 10% 45%;
+    --accent: 25 95% 95%;
+    --accent-foreground: 25 95% 40%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 15% 88%;
+    --input: 220 15% 92%;
+    --ring: 25 95% 53%;
+    --chart-1: 25 95% 53%;
+    --chart-2: 215 91% 60%;
+    --chart-3: 173 58% 39%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+
+    /* Gmail style sidebar -> Dark theme applied */
+    --sidebar-background: 220 15% 15%;
+    --sidebar-foreground: 220 20% 90%;
+    --sidebar-primary: 25 95% 53%; /* Using main primary color */
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 15% 25%;
+    --sidebar-accent-foreground: 220 20% 98%;
+    --sidebar-border: 220 15% 25%;
+    --sidebar-ring: 25 95% 53%;
+  }
+
+  .dark {
+    --background: 220 15% 10%;
+    --foreground: 220 20% 98%;
+    --card: 220 15% 15%;
+    --card-foreground: 220 20% 98%;
+    --popover: 220 15% 10%;
+    --popover-foreground: 220 20% 98%;
+    --primary: 25 95% 53%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 15% 20%;
+    --secondary-foreground: 220 20% 98%;
+    --muted: 220 15% 20%;
+    --muted-foreground: 220 15% 70%;
+    --accent: 25 95% 20%;
+    --accent-foreground: 25 95% 80%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 15% 25%;
+    --input: 220 15% 20%;
+    --ring: 25 95% 53%;
+    --chart-1: 25 95% 53%;
+    --chart-2: 215 91% 60%;
+    --chart-3: 173 58% 39%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    
+    /* Gmail style sidebar */
+    --sidebar-background: 220 15% 15%;
+    --sidebar-foreground: 220 20% 90%;
+    --sidebar-primary: 25 95% 53%; /* Using main primary color */
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 15% 25%;
+    --sidebar-accent-foreground: 220 20% 98%;
+    --sidebar-border: 220 15% 25%;
+    --sidebar-ring: 25 95% 53%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+}
+
+.font-headline {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-body {
+  font-family: 'PT Sans', sans-serif;
+}

@@ -1,0 +1,28 @@
+name: LangChain People
+
+on:
+  schedule:
+    - cron: "0 2 1 * *"
+  push:
+    branches: [jacob/people]
+  workflow_dispatch:
+
+jobs:
+  langchain-people:
+    if: github.repository_owner == 'langchain-ai'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      # Ref: https://github.com/actions/runner/issues/2033
+      - name: Fix git safe.directory in container
+        run: mkdir -p /home/runner/work/_temp/_github_home && printf "[safe]\n\tdirectory = /github/workspace" > /home/runner/work/_temp/_github_home/.gitconfig
+      - uses: ./.github/actions/people
+        with:
+          token: ${{ secrets.LANGCHAIN_PEOPLE_GITHUB_TOKEN }}

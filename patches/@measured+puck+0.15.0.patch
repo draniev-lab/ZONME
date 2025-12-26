@@ -1,0 +1,13 @@
+diff --git a/node_modules/@measured/puck/dist/index.js b/node_modules/@measured/puck/dist/index.js
+index f33333f..ec87103 100644
+--- a/node_modules/@measured/puck/dist/index.js
++++ b/node_modules/@measured/puck/dist/index.js
+@@ -293,7 +293,7 @@
+ var import_jsx_runtime = require("react/jsx-runtime");
+ var import_react_dnd_html5_backend = require("react-dnd-html5-backend");
+ var import_react_dnd = require("react-dnd");
+-var import_react_dom = require("react-dom");
++// var import_react_dom = require("react-dom");
+ var import_react_textarea_autosize = require("react-textarea-autosize");
+ var import_copy_to_clipboard = require("copy-to-clipboard");
+ var import_file_saver = require("file-saver");

@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "//"
+  ],
+  "tasks": {
+    "build": {
+      "inputs": [
+        "src/**/*",
+        "!src/load/import_constants.ts",
+        "!src/load/import_map.ts",
+        "!src/load/import_type.ts"
+      ],
+      "outputs": [
+        "**/dist/**"
+      ]
+    }
+  }
+}
